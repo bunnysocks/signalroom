@@ -1,6 +1,9 @@
 import e from "express"
 const app = e()
 const PORT = 3000
+import healthRoute from "./routes/health.js"
+import roomRoute from "./routes/room.js"
+import metricsRoute from "./routes/metrics.js"
 
 const fakeTasks = (fakeId) => {
     return new Promise( resolve => {
@@ -37,6 +40,10 @@ NonBlockingFn()
 app.get("/", (_, res) => {
     res.send("haha")
 })
+
+app.use('/health', healthRoute)
+app.use('/room', roomRoute)
+app.use('/metrics', metricsRoute)
 
 app.listen(PORT, () => {
     console.log(`server is listening on http://127.0.0.1:${PORT}`)
