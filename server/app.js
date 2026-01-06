@@ -12,6 +12,18 @@ const fakeTasks = (fakeId) => {
     )
 }
 
+const timeStampFn = async () => {
+    return new Promise(resolve => {
+        setTimeout(() => resolve(`Middleware Logged at ${new Date().toTimeString()}`))
+    })
+}
+
+const timeStampMiddleware = async  (req,res,next) => {
+    const timeStamp =  await timeStampFn()
+    console.log(timeStamp)
+    next()
+}
+
 const fetchFakeDataParallely = async () => {
     console.time("parallel")
     const tasks = await Promise.all(
@@ -37,7 +49,7 @@ const NonBlockingFn = () => {
 NonBlockingFn()
 
 
-app.get("/", (_, res) => {
+app.get("/", timeStampMiddleware, (_, res) => {
     res.send("haha")
 })
 
