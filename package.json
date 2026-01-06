@@ -13,7 +13,9 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx nodemon server/app.js"
+    "dev": "nodemon --exec ts-node server/app.js",
+    "build": "tsc",
+    "start": "node dist/app.js"
   },
   "bugs": {
     "url": "https://github.com/bunnysocks/signalroom/issues"
@@ -23,6 +25,10 @@
     "express": "^5.2.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.11"
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.0.3",
+    "nodemon": "^3.1.11",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }

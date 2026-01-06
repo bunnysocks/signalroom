@@ -1,30 +1,30 @@
-import e from "express"
+import e, {Request, Response, NextFunction} from "express"
 const app = e()
 const PORT = 3000
-import healthRoute from "./routes/health.js"
-import roomRoute from "./routes/room.js"
-import metricsRoute from "./routes/metrics.js"
+import healthRoute from "./routes/health"
+import roomRoute from "./routes/room"
+import metricsRoute from "./routes/metrics"
 
-const fakeTasks = (fakeId) => {
+const fakeTasks = (fakeId : number) : Promise<string> => {
     return new Promise( resolve => {
         setTimeout(() => resolve(`fakeData : ${fakeId}`), 1)
     }
     )
 }
 
-const timeStampFn = async () => {
+const timeStampFn = async () : Promise<string> => {
     return new Promise(resolve => {
         setTimeout(() => resolve(`Middleware Logged at ${new Date().toTimeString()}`))
     })
 }
 
-const timeStampMiddleware = async  (req,res,next) => {
+const timeStampMiddleware = async  (req : Request,res : Response,next : NextFunction) : Promise<void> => {
     const timeStamp =  await timeStampFn()
     console.log(timeStamp)
     next()
 }
 
-const fetchFakeDataParallely = async () => {
+const fetchFakeDataParallely = async () : Promise<string[]> => {
     console.time("parallel")
     const tasks = await Promise.all(
         Array.from({length: 1000}, (_, i) => fakeTasks(i))
@@ -33,7 +33,7 @@ const fetchFakeDataParallely = async () => {
     return tasks
 }
 
-const runFakeFetch = async () => {
+const runFakeFetch = async () : Promise<void> => {
     const fakeData = await fetchFakeDataParallely()
     console.log(fakeData)
     console.log("actually doneFetching...")
@@ -49,7 +49,7 @@ const NonBlockingFn = () => {
 NonBlockingFn()
 
 
-app.get("/", timeStampMiddleware, (_, res) => {
+app.get("/", timeStampMiddleware, (_:Request, res:Response) => {
     res.send("haha")
 })
 
