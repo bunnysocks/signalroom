@@ -2,7 +2,7 @@
   "name": "signalroom",
   "version": "1.0.0",
   "description": "",
-  "main": "server/app.js",
+  "main": "server/app.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bunnysocks/signalroom.git"
@@ -13,15 +13,16 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --exec ts-node server/app.js",
+    "dev": "NODE_ENV=development nodemon --watch server --exec node --loader ts-node/esm server/app.ts",
     "build": "tsc",
-    "start": "node dist/app.js"
+    "prod": "npm run build && NODE_ENV=production node dist/app.js"
   },
   "bugs": {
     "url": "https://github.com/bunnysocks/signalroom/issues"
   },
   "homepage": "https://github.com/bunnysocks/signalroom#readme",
   "dependencies": {
+    "dotenv": "^17.2.3",
     "express": "^5.2.1"
   },
   "devDependencies": {
